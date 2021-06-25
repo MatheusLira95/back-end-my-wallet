@@ -53,6 +53,11 @@ app.post("/sign-up", async (req, res) => {
 app.post("/sign-in", async (req, res) => {
   try {
     const { email, password } = req.body;
+    const loginSchema = joi.object({
+      email: joi.string().email().required(),
+      password: joi.string().required(),
+    });
+    loginSchema.validate({ email, password });
 
     const result = await connection.query(
       `
@@ -74,7 +79,7 @@ app.post("/sign-in", async (req, res) => {
       );
       res.status(200).send({ token, user });
     } else {
-      res.sendStatus(409);
+      res.sendStatus(401);
     }
   } catch (e) {
     res.sendStatus(500);
