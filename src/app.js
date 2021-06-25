@@ -34,7 +34,6 @@ app.post("/sign-up", async (req, res) => {
       [name, email]
     );
     if (alreadyInUse.rows[0]) {
-      console.log(alreadyInUse.rows);
       return res.sendStatus(401);
     }
     const resp = await connection.query(
